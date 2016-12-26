@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build-dev" : "webpack            --config webpack.dev.config.js",
+    "build-dev": "webpack            --config webpack.dev.config.js",
     "build-prod": "webpack            --config webpack.prod.config.js",
     "dev-server": "webpack-dev-server --config webpack.dev.config.js --hot --inline"
   },
@@ -23,6 +23,7 @@
     "style-loader": "^0.13.1",
     "underscore": "^1.8.3",
     "underscore-template-loader": "^0.7.3",
-    "webpack": "^1.13.3"
+    "webpack": "^1.13.3",
+    "webpack-dev-server": "^1.16.2"
   }
 }
