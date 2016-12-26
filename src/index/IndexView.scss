@@ -2,18 +2,19 @@
 @import "../mixins";
 @import "../common";
 
-.index{
-    height: 10rem;
-
+.index {
+    height: 20rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    input[type="checkbox"]{
+
+    input[type="checkbox"] {
         transform: scale(1.5);
         margin-right: 1rem;
     }
-    .create-exercise{
-        padding:1rem;
+
+    .create-exercise {
+        padding: 1rem;
     }
 }

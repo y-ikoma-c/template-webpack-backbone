@@ -16,13 +16,14 @@ var Router = Backbone.Router.extend({
             reset: true,
         }).done(function(exercises){
             if(exercises.length == 0){
-                me._switchView(new IndexView());
+                me._goto(new IndexView());
             } else {
-                me._switchView(new ExerciseView());
+                me._goto(new ExerciseView());
             }
         }).fail(function(){
 
         });
+        
     },
 
     exercise : function exercise(date) {
@@ -30,7 +31,7 @@ var Router = Backbone.Router.extend({
         console.log('exercise', date);
     },
 
-    _switchView: function(newView){
+    _goto: function(newView){
         var oldView = this.currentView;
         if (!_.isUndefined(oldView)) {
             oldView.remove();
