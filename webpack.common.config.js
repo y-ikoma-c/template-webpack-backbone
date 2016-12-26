@@ -25,8 +25,12 @@ module.exports = {
     },
 
     plugins: [
-        new HtmlWebpackPlugin({title: 'template-webpack'}),
+        new HtmlWebpackPlugin({
+            title: "template-webpack",
+            template: "src/App.ejs"
+        }),
         new webpack.ProvidePlugin({
+            $: "jquery",
             _: "underscore",
             Backbone: "backbone",
         }),
