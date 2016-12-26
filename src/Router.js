@@ -1,26 +1,45 @@
 const IndexView = require("./index/IndexView");
+const ExerciseView = require("./exercise/ExerciseView");
 
-module.exports = Backbone.Router.extend({
+var Router = Backbone.Router.extend({
 
-    routes : {  // ハッシュフラグメントと対応するメソッド名の組を設定する
-        ''           : 'index',
-        'mypage'     : 'mypage',
-        'blog(/:id)' : 'blog'
+    routes : {
+        ''                 : 'index',
+        'exercise(/:date)' : 'exercise'
     },
 
     index : function index() {
-        // ハッシュなしでアクセスされたときの処理を書く
-        new IndexView().render();
+
+        var me = this;
+
+        App.exercises.fetch({
+            reset: true,
+        }).done(function(exercises){
+            if(exercises.length == 0){
+                me._switchView(new IndexView());
+            } else {
+                me._switchView(new ExerciseView());
+            }
+        }).fail(function(){
+
+        });
     },
 
-    mypage : function mypage() {
-        // #mypageでアクセスされたときの処理を書く
-        console.log('mypage', arguments);
+    exercise : function exercise(date) {
+        // #exercise/${date}でアクセスされたときの処理を書く
+        console.log('exercise', date);
     },
 
-    blog : function blog(id) {
-        // #blog（または#blog/123など）でアクセスされたときの処理を書く
-        console.log('blog', arguments);
-    }
+    _switchView: function(newView){
+        var oldView = this.currentView;
+        if (!_.isUndefined(oldView)) {
+            oldView.remove();
+        }
+        if (!_.isUndefined(newView)) {
+            this.currentView = newView.render();
+        }
+    },
 
 });
+
+module.exports = Router;

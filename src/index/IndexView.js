@@ -1,26 +1,33 @@
 require("./IndexView.scss");
 
-module.exports = Backbone.View.extend({
+var IndexView = Backbone.View.extend({
 
     el: "body",
     template: require('./IndexView.html'),
 
     initialize: function(){
         this.delegateEvents({
-            "click .reload": this.onReload
+            "click .create-exercise": this.onCreateExercise
         });
     },
 
     render: function(){
-        var content = this.template({
-            now: new Date().toLocaleString(),
-        });
-        this.$el.html(content);
+        this.$el.append(this.template());
+        this.$addition = this.$el.find(".addition");
+        this.$subtraction = this.$el.find(".subtraction");
+        this.$count = this.$el.find(".count");
         return this;
     },
 
-    onReload:function(){
-        this.render();
+    onCreateExercise:function(){
+        var config = {
+            hasAddition: this.$addition.prop("checked"),
+            hasSubtraction: this.$subtraction.prop("checked"),
+            count: parseInt(this.$count.val()),
+        };
+        App.eventBus.trigger("configure:exercise", config);
     },
 
 });
+
+module.exports = IndexView;
