@@ -1,0 +1,10 @@
+@import "variables";
+@import "mixins";
+
+*{
+    box-sizing: border-box;
+}
+
+.btn{
+    padding:.5rem;
+}

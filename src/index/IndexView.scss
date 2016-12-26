@@ -1,0 +1,13 @@
+@import "../variables";
+@import "../mixins";
+@import "../common";
+
+.root{
+    display: flex;
+    span{
+        background: $color-1;
+    }
+    button{
+        background: $color-2;
+    }
+}
