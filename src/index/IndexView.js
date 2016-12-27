@@ -1,4 +1,5 @@
 const Exercise = require("../model/Exercise");
+const ExerciseListItemTpl = require("./ExerciseListItem.html");
 require("./IndexView.scss");
 
 var IndexView = Backbone.View.extend({
@@ -13,12 +14,16 @@ var IndexView = Backbone.View.extend({
     },
 
     render: function(){
+
         this.$el.append(this.template());
+
         this.$addition = this.$el.find(".addition");
         this.$subtraction = this.$el.find(".subtraction");
-        this.$count = this.$el.find(".count");
         this.$upper = this.$el.find(".upper");
         this.$lower = this.$el.find(".lower");
+        this.$count = this.$el.find(".count");
+        this.$exerciseList = this.$el.find(".exercise-list");
+
         return this;
     },
 
@@ -31,21 +36,36 @@ var IndexView = Backbone.View.extend({
             lower: parseInt(this.$lower.val()),
         };
 
-        if (this.$addition.prop("checked"))conf.operators.push("+");
-        if (this.$subtraction.prop("checked")) conf.operators.push("-");
+        if (this.$addition.prop("checked")){
+            conf.operators.push("+");
+        }
+        if (this.$subtraction.prop("checked")) {
+            conf.operators.push("-");
+        }
+
+        App.exercises.reset(null);
 
         _.times(conf.count, function(i){
 
             var no = i + 1;
+
             var exercise;
-            while(!(exercise = this._newExercise(no, conf)).isUsable()){
+            while(!(exercise = this._newExercise(no, conf)).isUsable()){};
 
-            };
-
-            App.exercises.create(exercise);
+            App.exercises.add(exercise);
 
         }, this);
 
+        this.renderExercises(App.exercises);
+
+    },
+
+    renderExercises: function(exercises){
+        var contents = "";
+        exercises.each(function(exercise){
+            contents += ExerciseListItemTpl(exercise.toJSON());
+        });
+        this.$exerciseList.html(contents);
     },
 
     _newExercise: function(no, conf){

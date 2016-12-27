@@ -23,7 +23,7 @@ var Router = Backbone.Router.extend({
         }).fail(function(){
 
         });
-        
+
     },
 
     exercise : function exercise(date) {
@@ -32,6 +32,7 @@ var Router = Backbone.Router.extend({
     },
 
     _goto: function(newView){
+        console.log(newView);
         var oldView = this.currentView;
         if (!_.isUndefined(oldView)) {
             oldView.remove();
