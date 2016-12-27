@@ -3,10 +3,11 @@ var Exercise = Backbone.Model.extend({
 
     },
     defaults: {
-        lhs: 0,
+        lhs: -1,
         ope: "+",
-        rhs: 0,
-        ans: 0,
+        rhs: -1,
+        ans: -1,
+        verify: null,
     },
     getExpression: function(){
         return this.get("lhs") + this.get("ope") + this.get("rhs")
@@ -14,6 +15,9 @@ var Exercise = Backbone.Model.extend({
     isUsable: function(){
         return -1 < eval(this.getExpression());
     },
+    verify: function(){
+        this.set("verify", eval(this.getExpression()) === this.get("ans"));
+    }
 });
 
 module.exports = Exercise;

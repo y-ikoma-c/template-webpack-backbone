@@ -1,5 +1,5 @@
 const Exercise = require("../model/Exercise");
-const ExerciseListItemTpl = require("./ExerciseListItem.html");
+const ExerciseListItem = require("./ExerciseListItem");
 require("./IndexView.scss");
 
 var IndexView = Backbone.View.extend({
@@ -8,8 +8,13 @@ var IndexView = Backbone.View.extend({
     template: require('./IndexView.html'),
 
     initialize: function(){
+        this.listenTo(App.exercises, "change:ans", function(model, value, options){
+            var answeredCount = _.without(App.exercises.pluck("ans"), -1).length;
+            this.$vefify.prop("disabled", this.conf.count !== answeredCount);
+        });
         this.delegateEvents({
-            "click .create-exercise": this.onCreateExercise
+            "click .create-exercise": this.onCreateExercise,
+            "click .verify-exercise": this.onVerifyExercise
         });
     },
 
@@ -23,13 +28,14 @@ var IndexView = Backbone.View.extend({
         this.$lower = this.$el.find(".lower");
         this.$count = this.$el.find(".count");
         this.$exerciseList = this.$el.find(".exercise-list");
+        this.$vefify = this.$el.find(".verify-exercise");
 
         return this;
     },
 
     onCreateExercise:function(){
 
-        var conf = {
+        this.conf = {
             operators: [],
             count: parseInt(this.$count.val()),
             upper: parseInt(this.$upper.val()),
@@ -37,20 +43,20 @@ var IndexView = Backbone.View.extend({
         };
 
         if (this.$addition.prop("checked")){
-            conf.operators.push("+");
+            this.conf.operators.push("+");
         }
         if (this.$subtraction.prop("checked")) {
-            conf.operators.push("-");
+            this.conf.operators.push("-");
         }
 
         App.exercises.reset(null);
 
-        _.times(conf.count, function(i){
+        _.times(this.conf.count, function(i){
 
             var no = i + 1;
 
             var exercise;
-            while(!(exercise = this._newExercise(no, conf)).isUsable()){};
+            while(!(exercise = this._newExercise(no, this.conf)).isUsable()){};
 
             App.exercises.add(exercise);
 
@@ -60,12 +66,21 @@ var IndexView = Backbone.View.extend({
 
     },
 
-    renderExercises: function(exercises){
-        var contents = "";
-        exercises.each(function(exercise){
-            contents += ExerciseListItemTpl(exercise.toJSON());
+    onVerifyExercise: function(){
+        App.exercises.each(function(exercise){
+            exercise.verify();
         });
-        this.$exerciseList.html(contents);
+    },
+
+    renderExercises: function(exercises){
+        var fragment = document.createDocumentFragment();
+        exercises.each(function(exercise){
+            var item = new ExerciseListItem({
+                model: exercise,
+            })
+            fragment.appendChild(item.render().el);
+        });
+        this.$exerciseList.html(fragment);
     },
 
     _newExercise: function(no, conf){

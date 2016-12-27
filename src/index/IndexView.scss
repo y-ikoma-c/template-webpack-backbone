@@ -4,20 +4,23 @@
 
 .index {
 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
     .exercise-conf{
         height: 20rem;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: space-around;
-
-        .create-exercise {
-            padding: 1rem;
+        > *:not(:first-child){
+            margin-top:1rem;
         }
-
     }
 
     .exercise-list{
+        margin-top:1rem;
         list-style-type: none;
         display: flex;
         flex-direction: column;
@@ -33,12 +36,37 @@
                 text-align: center;
             }
             .no{
-                background-color: limegreen;
                 border-radius: 50%;
-                box-shadow: 0 0 4px 2px #999;
-                color: white;
+                background-color: #999;
+                color:#fff;
+            }
+            .verify{
+                margin-left:.25rem;
+                &--ok:before{
+                    color: limegreen;
+                    @extend %material-icons;
+                    content: "done";
+                    font-size: 2rem;
+                    font-weight: bold;
+                }
+                &--ng:before{
+                    color: crimson;
+                    @extend %material-icons;
+                    content: "clear";
+                    font-size: 2rem;
+                    font-weight: bold;
+                }
             }
         }
+    }
+
+    .verify-exercise{
+        margin-top:1rem;
+    }
+
+    button{
+        width:10rem;
+        padding:1rem;
     }
 
     input[type="checkbox"] {

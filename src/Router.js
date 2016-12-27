@@ -28,11 +28,9 @@ var Router = Backbone.Router.extend({
 
     exercise : function exercise(date) {
         // #exercise/${date}でアクセスされたときの処理を書く
-        console.log('exercise', date);
     },
 
     _goto: function(newView){
-        console.log(newView);
         var oldView = this.currentView;
         if (!_.isUndefined(oldView)) {
             oldView.remove();
