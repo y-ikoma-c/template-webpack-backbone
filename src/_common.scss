@@ -3,9 +3,26 @@
 
 *{
     box-sizing: border-box;
-    font-family: "Noto Sans Japanese", serif;
+    // font-family: "Noto Sans Japanese", monospace;
+    font-family: "Mplus 1p", monospace;
+    // font-family: "Rounded Mplus 1c", monospace;
+    // font-family: "Sawarabi Gothic", monospace;
 }
 
 .btn{
     padding:.5rem;
+}
+
+.anim-round{
+    animation: round .5s ease-in-out;
+    animation: round-reverse .5s ease-in-out .5s;
+}
+
+@keyframes round {
+    0%{
+        transform: scale(1.5) rotate(360deg);
+    }
+    100%{
+        transform: scale(1) rotate(0);
+    }
 }

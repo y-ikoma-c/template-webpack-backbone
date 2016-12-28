@@ -26,7 +26,7 @@ module.exports = {
 
     plugins: [
         new HtmlWebpackPlugin({
-            title: "exercise1",
+            title: "Exercise",
             template: "src/App.ejs"
         }),
         new webpack.ProvidePlugin({
